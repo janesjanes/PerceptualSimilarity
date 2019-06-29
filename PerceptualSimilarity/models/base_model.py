@@ -1,6 +1,6 @@
 import os
 import torch
-import util.util as util
+from ..util import util 
 from torch.autograd import Variable
 from pdb import set_trace as st
 from IPython import embed
@@ -8,7 +8,7 @@ from IPython import embed
 class BaseModel():
     def __init__(self):
         pass;
-        
+
     def name(self):
         return 'BaseModel'
 
@@ -58,4 +58,3 @@ class BaseModel():
     def save_done(self, flag=False):
         np.save(os.path.join(self.save_dir, 'done_flag'),flag)
         np.savetxt(os.path.join(self.save_dir, 'done_flag'),[flag,],fmt='%i')
-

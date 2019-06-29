@@ -15,7 +15,7 @@ from IPython import embed
 from . import pretrained_networks as pn
 
 # from PerceptualSimilarity.util import util
-from util import util
+from ..util import util
 
 # Off-the-shelf deep network
 class PNet(nn.Module):
@@ -30,7 +30,7 @@ class PNet(nn.Module):
 
         self.shift = torch.autograd.Variable(torch.Tensor([-.030, -.088, -.188]).view(1,3,1,1))
         self.scale = torch.autograd.Variable(torch.Tensor([.458, .448, .450]).view(1,3,1,1))
-        
+
         if(self.pnet_type in ['vgg','vgg16']):
             self.net = pn.vgg16(pretrained=not self.pnet_rand,requires_grad=False)
         elif(self.pnet_type=='alex'):
@@ -163,7 +163,7 @@ class PNetLin(nn.Module):
                 lin_models.extend([self.lin5, self.lin6])
             res = [lin_models[kk].model(diffs[kk]) for kk in range(len(diffs))]
             return res
-			
+
         val = torch.mean(torch.mean(self.lin0.model(diffs[0]),dim=3),dim=2)
         val = val + torch.mean(torch.mean(self.lin1.model(diffs[1]),dim=3),dim=2)
         val = val + torch.mean(torch.mean(self.lin2.model(diffs[2]),dim=3),dim=2)
@@ -239,7 +239,7 @@ class L2(FakeNet):
             value = torch.mean(torch.mean(torch.mean((in0-in1)**2,dim=1).view(N,1,X,Y),dim=2).view(N,1,1,Y),dim=3).view(N)
             return value
         elif(self.colorspace=='Lab'):
-            value = util.l2(util.tensor2np(util.tensor2tensorlab(in0.data,to_norm=False)), 
+            value = util.l2(util.tensor2np(util.tensor2tensorlab(in0.data,to_norm=False)),
                 util.tensor2np(util.tensor2tensorlab(in1.data,to_norm=False)), range=100.).astype('float')
             ret_var = Variable( torch.Tensor((value,) ) )
             if(self.use_gpu):
@@ -254,7 +254,7 @@ class DSSIM(FakeNet):
         if(self.colorspace=='RGB'):
             value = util.dssim(1.*util.tensor2im(in0.data), 1.*util.tensor2im(in1.data), range=255.).astype('float')
         elif(self.colorspace=='Lab'):
-            value = util.dssim(util.tensor2np(util.tensor2tensorlab(in0.data,to_norm=False)), 
+            value = util.dssim(util.tensor2np(util.tensor2tensorlab(in0.data,to_norm=False)),
                 util.tensor2np(util.tensor2tensorlab(in1.data,to_norm=False)), range=100.).astype('float')
         ret_var = Variable( torch.Tensor((value,) ) )
         if(self.use_gpu):
