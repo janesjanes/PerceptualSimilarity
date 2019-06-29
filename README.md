@@ -1,4 +1,6 @@
 
+[Added a wrapper to use PerceptualSimilarity as python module]
+
 ## Perceptual Similarity Metric and Dataset [[Project Page]](http://richzhang.github.io/PerceptualSimilarity/)
 
 This repository contains the **(1) Learned Perceptual Image Patch Similarity (LPIPS) metric** and **(2) Berkeley-Adobe Perceptual Patch Similarity (BAPPS) dataset**. It can also be used as an implementation of the "perceptual loss". This is a PyTorch implementation; a Tensorflow alternative is [[here](https://github.com/alexlee-gk/lpips-tensorflow)].
@@ -77,7 +79,7 @@ Script `test_dataset_model.py` evaluates a perceptual model on a subset of the d
 - `datasets`: list the datasets to evaluate
     - if `dataset_mode` was `2afc`, choices are [`train/traditional`, `train/cnn`, `val/traditional`, `val/cnn`, `val/superres`, `val/deblur`, `val/color`, `val/frameinterp`]
     - if `dataset_mode` was `jnd`, choices are [`val/traditional`, `val/cnn`]
-    
+
 **Perceptual similarity model flags**
 - `model`: perceptual similarity model to use
     - `net-lin` for our LPIPS learned similarity model (linear network on top of internal activations of pretrained network)
@@ -117,7 +119,7 @@ Each 2AFC subdirectory contains the following folders:
 - `p0,p1` contain the two distorted patches
 - `judge` contains what the human evaluators chose - 0 if all humans preferred p0, 1 if all humans preferred p1
 
-**(2) Just Noticeable Differences (JND)** - Data is contained in the `jnd` subdirectory. Evaluators were presented with two patches - a reference patch and a distorted patch - for a limited time, and were asked if they thought the patches were the same (identically) or difference. 
+**(2) Just Noticeable Differences (JND)** - Data is contained in the `jnd` subdirectory. Evaluators were presented with two patches - a reference patch and a distorted patch - for a limited time, and were asked if they thought the patches were the same (identically) or difference.
 
 Each set contains 3 human evaluations/example.
 - `val/traditional` [4.8k patch pairs]
@@ -131,7 +133,7 @@ Each JND subdirectory contains the following folders:
 
 See script `train_test_metric.sh` for an example of training and testing the metric. The script will train a model on the full training set for 10 epochs, and then test the learned metric on all of the validation sets. The numbers should roughly match the **Alex - lin** row in Table 5 in the [paper](https://arxiv.org/abs/1801.03924). The code supports training a linear layer on top of an existing representation. Training will add a subdirectory in the `checkpoints` directory.
 
-You can also train "scratch" and "tune" versions by running `train_test_metric_scratch.sh` and `train_test_metric_tune.sh`, respectively. 
+You can also train "scratch" and "tune" versions by running `train_test_metric_scratch.sh` and `train_test_metric_tune.sh`, respectively.
 
 ### Docker Environment
 
